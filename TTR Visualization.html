@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.22.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.8"></script>
+</head>
+<body>
+  <div id="vis"/>
+  <script>
+    const spec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "datasets": {
+    "Initial Setup": [
+      {"Player Option": "Train cards Dealt", "Player": "A", "value": 4},
+      {"Player Option": "Train cards Dealt", "Player": "B", "value": 4},
+      {"Player Option": "Train cards Dealt", "Player": "C", "value": 4},
+      {"Player Option": "Train cards Dealt", "Player": "D", "value": 4},
+      {"Player Option": "Destination Cards kept", "Player": "A", "value": 3},
+      {"Player Option": "Destination Cards kept", "Player": "B", "value": 3},
+      {"Player Option": "Destination Cards kept", "Player": "C", "value": 2},
+      {"Player Option": "Destination Cards kept", "Player": "D", "value": 2},
+      {"Player Option": "No of trains given", "Player": "A", "value": 45},
+      {"Player Option": "No of trains given", "Player": "B", "value": 45},
+      {"Player Option": "No of trains given", "Player": "C", "value": 45},
+      {"Player Option": "No of trains given", "Player": "D", "value": 45}
+    ],
+    "Round1": [
+      {"Player Option": "Train cards Drawn", "Player": "A", "value": 2},
+      {"Player Option": "Train cards Drawn", "Player": "B", "value": 0},
+      {"Player Option": "Train cards Drawn", "Player": "C", "value": 2},
+      {"Player Option": "Train cards Drawn", "Player": "D", "value": 2},
+      {"Player Option": "Destination Cards drawn", "Player": "A", "value": 0},
+      {"Player Option": "Destination Cards drawn", "Player": "B", "value": 3},
+      {"Player Option": "Destination Cards drawn", "Player": "C", "value": 0},
+      {"Player Option": "Destination Cards drawn", "Player": "D", "value": 0},
+      {"Player Option": "Claimed route trains", "Player": "A", "value": 0},
+      {"Player Option": "Claimed route trains", "Player": "B", "value": 0},
+      {"Player Option": "Claimed route trains", "Player": "C", "value": 0},
+      {"Player Option": "Claimed route trains", "Player": "D", "value": 0}
+    ],
+    "Points at Round 1": [
+      {"Player": "A", "Points Scored in Round1": 0},
+      {"Player": "B", "Points Scored in Round1": 0},
+      {"Player": "C", "Points Scored in Round1": 0},
+      {"Player": "D", "Points Scored in Round1": 0}
+    ],
+    "Round2": [
+      {
+        "Player Option": "Train cards Drawn",
+        "Player": "A",
+        "value": 0,
+        "Points Scored in Round2": 2
+      },
+      {
+        "Player Option": "Train cards Drawn",
+        "Player": "B",
+        "value": 0,
+        "Points Scored in Round2": 7
+      },
+      {
+        "Player Option": "Train cards Drawn",
+        "Player": "C",
+        "value": 0,
+        "Points Scored in Round2": 15
+      },
+      {
+        "Player Option": "Train cards Drawn",
+        "Player": "D",
+        "value": 0,
+        "Points Scored in Round2": 4
+      },
+      {"Player Option": "Destination Cards drawn", "Player": "A", "value": 0},
+      {"Player Option": "Destination Cards drawn", "Player": "B", "value": 0},
+      {"Player Option": "Destination Cards drawn", "Player": "C", "value": 0},
+      {"Player Option": "Destination Cards drawn", "Player": "D", "value": 0},
+      {"Player Option": "Claimed route trains", "Player": "A", "value": 2},
+      {"Player Option": "Claimed route trains", "Player": "B", "value": 4},
+      {"Player Option": "Claimed route trains", "Player": "C", "value": 6},
+      {"Player Option": "Claimed route trains", "Player": "D", "value": 3}
+    ],
+    "Player A status after Round 1": [
+      {"category": "Train Cards Left", "value": 6},
+      {"category": "Destination Cards Left", "value": 3},
+      {"category": "Trains left", "value": 45}
+    ],
+    "Player B status after Round 1": [
+      {"category": "Train Cards Left", "value": 4},
+      {"category": "Destination Cards Left", "value": 6},
+      {"category": "Trains left", "value": 45}
+    ],
+    "Player C status after Round 1": [
+      {"category": "Train Cards Left", "value": 6},
+      {"category": "Destination Cards Left", "value": 2},
+      {"category": "Trains left", "value": 45}
+    ],
+    "Player D status after Round 1": [
+      {"category": "Train Cards Left", "value": 6},
+      {"category": "Destination Cards Left", "value": 2},
+      {"category": "Trains left", "value": 45}
+    ],
+    "Points at Round 2": [
+      {"Player": "A", "Points Scored in Round2": 2},
+      {"Player": "B", "Points Scored in Round2": 7},
+      {"Player": "C", "Points Scored in Round2": 15},
+      {"Player": "D", "Points Scored in Round2": 4}
+    ],
+    "No of trains left": [
+      {"Player": "A", "trains": "train"},
+      {"Player": "A", "trains": "train"},
+      {"Player": "B", "trains": "train"},
+      {"Player": "B", "trains": "train"},
+      {"Player": "B", "trains": "train"},
+      {"Player": "B", "trains": "train"},
+      {"Player": "C", "trains": "train"},
+      {"Player": "C", "trains": "train"},
+      {"Player": "C", "trains": "train"},
+      {"Player": "C", "trains": "train"},
+      {"Player": "C", "trains": "train"},
+      {"Player": "C", "trains": "train"},
+      {"Player": "D", "trains": "train"},
+      {"Player": "D", "trains": "train"},
+      {"Player": "D", "trains": "train"}
+    ],
+    "Player A status after Round 2": [
+      {"category": "Train Cards Left", "value": 4},
+      {"category": "Destination Cards Left", "value": 3},
+      {"category": "Trains left", "value": 43},
+      {"category": "zFinal Score after R2", "value": 14}
+    ],
+    "Player B status after Round 2": [
+      {"category": "Train Cards Left", "value": 0},
+      {"category": "Destination Cards Left", "value": 6},
+      {"category": "Trains left", "value": 41},
+      {"category": "zFinal Score after R2", "value": 17}
+    ],
+    "Player C status after Round 2": [
+      {"category": "Train Cards Left", "value": 0},
+      {"category": "Destination Cards Left", "value": 2},
+      {"category": "Trains left", "value": 39},
+      {"category": "zFinal Score after R2", "value": 30}
+    ],
+    "Player D status after Round 2": [
+      {"category": "Train Cards Left", "value": 3},
+      {"category": "Destination Cards Left", "value": 2},
+      {"category": "Trains left", "value": 42},
+      {"category": "zFinal Score after R2", "value": 11}
+    ]
+  },
+  "vconcat": [
+    {
+      "title": "Initial Game setup",
+      "data": {"name": "Initial Setup"},
+      "mark": "bar",
+      "encoding": {
+        "x": {"field": "Player Option"},
+        "y": {"field": "value", "type": "quantitative"},
+        "tooltip": {"field": "value", "type": "quantitative"},
+        "xOffset": {"field": "Player"},
+        "color": {"field": "Player"}
+      }
+    },
+    {
+      "hconcat": [
+        {
+          "title": "Game State 1",
+          "data": {"name": "Round1"},
+          "mark": "bar",
+          "encoding": {
+            "x": {"field": "Player Option"},
+            "y": {"field": "value", "type": "quantitative"},
+            "tooltip": {"field": "value", "type": "quantitative"},
+            "xOffset": {"field": "Player"},
+            "color": {"field": "Player"}
+          }
+        },
+        {
+          "data": {"name": "Points at Round 1"},
+          "mark": "bar",
+          "encoding": {
+            "y": {"field": "Player", "type": "nominal"},
+            "x": {
+              "field": "Points Scored in Round1",
+              "type": "quantitative",
+              "scale": {"domain": [0, 10]}
+            }
+          },
+          "layer": [
+            {"mark": "bar"},
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 3
+              },
+              "encoding": {
+                "text": {
+                  "field": "Points Scored in Round1",
+                  "type": "quantitative"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "hconcat": [
+        {
+          "data": {"name": "Player A status after Round 1"},
+          "title": "Player A status after Round 1",
+          "mark": "bar",
+          "encoding": {
+            "y": {"field": "category", "type": "nominal"},
+            "x": {
+              "field": "value",
+              "type": "quantitative",
+              "scale": {"domain": [0, 50]}
+            }
+          },
+          "layer": [
+            {"mark": "bar"},
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 3
+              },
+              "encoding": {"text": {"field": "value", "type": "quantitative"}}
+            }
+          ]
+        },
+        {
+          "data": {"name": "Player B status after Round 1"},
+          "title": "Player B status after Round 1",
+          "mark": "bar",
+          "encoding": {
+            "y": {"field": "category", "type": "nominal"},
+            "x": {
+              "field": "value",
+              "type": "quantitative",
+              "scale": {"domain": [0, 50]}
+            }
+          },
+          "layer": [
+            {"mark": "bar"},
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 3
+              },
+              "encoding": {"text": {"field": "value", "type": "quantitative"}}
+            }
+          ]
+        },
+        {
+          "data": {"name": "Player C status after Round 1"},
+          "title": "Player C status after Round 1",
+          "mark": "bar",
+          "encoding": {
+            "y": {"field": "category", "type": "nominal"},
+            "x": {
+              "field": "value",
+              "type": "quantitative",
+              "scale": {"domain": [0, 50]}
+            }
+          },
+          "layer": [
+            {"mark": "bar"},
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 3
+              },
+              "encoding": {"text": {"field": "value", "type": "quantitative"}}
+            }
+          ]
+        },
+        {
+          "data": {"name": "Player D status after Round 1"},
+          "title": "Player D status after Round 1",
+          "mark": "bar",
+          "encoding": {
+            "y": {"field": "category", "type": "nominal"},
+            "x": {
+              "field": "value",
+              "type": "quantitative",
+              "scale": {"domain": [0, 50]}
+            }
+          },
+          "layer": [
+            {"mark": "bar"},
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 3
+              },
+              "encoding": {"text": {"field": "value", "type": "quantitative"}}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "hconcat": [
+        {
+          "title": "Game state 2",
+          "data": {"name": "Round2"},
+          "mark": "bar",
+          "encoding": {
+            "x": {"field": "Player Option"},
+            "y": {"field": "value", "type": "quantitative"},
+            "tooltip": {"field": "value", "type": "quantitative"},
+            "xOffset": {"field": "Player"},
+            "color": {
+              "field": "Player",
+              "scale": {"range": ["#b21218", "#ffff99", "#66a61e", "#125ca4"]}
+            }
+          }
+        },
+        {
+          "data": {"name": "Points at Round 2"},
+          "encoding": {
+            "y": {"field": "Player", "type": "nominal"},
+            "x": {
+              "field": "Points Scored in Round2",
+              "type": "quantitative",
+              "scale": {"domain": [0, 20]}
+            }
+          },
+          "layer": [
+            {"mark": "bar"},
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 3
+              },
+              "encoding": {
+                "text": {
+                  "field": "Points Scored in Round2",
+                  "type": "quantitative"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "data": {"name": "No of trains left"},
+          "transform": [
+            {"calculate": "{ 'train': '🚃'}[datum.trains]", "as": "emoji"},
+            {
+              "window": [{"op": "rank", "as": "rank"}],
+              "groupby": ["Player", "trains"]
+            }
+          ],
+          "title": "No of Trains used",
+          "mark": {"type": "text", "baseline": "middle"},
+          "encoding": {
+            "x": {"field": "rank", "type": "ordinal", "axis": null},
+            "y": {
+              "field": "trains",
+              "type": "nominal",
+              "axis": null,
+              "sort": null
+            },
+            "row": {"field": "Player", "header": {"title": ""}},
+            "text": {"field": "emoji", "type": "nominal"},
+            "size": {"value": 40}
+          }
+        }
+      ]
+    },
+    {
+      "hconcat": [
+        {
+          "data": {"name": "Player A status after Round 2"},
+          "title": "Player A status after Round 2",
+          "mark": "bar",
+          "encoding": {
+            "y": {"field": "category", "type": "nominal"},
+            "x": {
+              "field": "value",
+              "type": "quantitative",
+              "scale": {"domain": [0, 50]}
+            }
+          },
+          "layer": [
+            {"mark": "bar"},
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 3
+              },
+              "encoding": {"text": {"field": "value", "type": "quantitative"}}
+            }
+          ]
+        },
+        {
+          "data": {"name": "Player B status after Round 2"},
+          "title": "Player B status after Round 2",
+          "mark": "bar",
+          "encoding": {
+            "y": {"field": "category", "type": "nominal"},
+            "x": {
+              "field": "value",
+              "type": "quantitative",
+              "scale": {"domain": [0, 50]}
+            }
+          },
+          "layer": [
+            {"mark": "bar"},
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 3
+              },
+              "encoding": {"text": {"field": "value", "type": "quantitative"}}
+            }
+          ]
+        },
+        {
+          "data": {"name": "Player C status after Round 2"},
+          "title": "Player C status after Round 2",
+          "mark": "bar",
+          "encoding": {
+            "y": {"field": "category", "type": "nominal"},
+            "x": {
+              "field": "value",
+              "type": "quantitative",
+              "scale": {"domain": [0, 50]}
+            }
+          },
+          "layer": [
+            {"mark": "bar"},
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 3
+              },
+              "encoding": {"text": {"field": "value", "type": "quantitative"}}
+            }
+          ]
+        },
+        {
+          "data": {"name": "Player D status after Round 2"},
+          "title": "Player D status after Round 2",
+          "mark": "bar",
+          "encoding": {
+            "y": {"field": "category", "type": "nominal"},
+            "x": {
+              "field": "value",
+              "type": "quantitative",
+              "scale": {"domain": [0, 50]}
+            }
+          },
+          "layer": [
+            {"mark": "bar"},
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 3
+              },
+              "encoding": {"text": {"field": "value", "type": "quantitative"}}
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "config": {}
+};
+    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  </script>
+</body>
+</html>
